@@ -3,11 +3,11 @@ package entity
 import "fmt"
 
 type Db struct {
-	Host     string `yaml:"host";json:"host"`
-	Port     int    `yaml:"port";json:"port"`
-	User     string `yaml:"user";json:"user"`
-	Password string `yaml:"password";json:"password"`
-	Name     string `yaml:"name";json:"name"`
+	Host     string `yaml:"host" json:"host"`
+	Port     int    `yaml:"port" json:"port"`
+	User     string `yaml:"user" json:"user"`
+	Password string `yaml:"password" json:"password"`
+	Name     string `yaml:"name" json:"name"`
 }
 
 func (d Db) DSN() string {
