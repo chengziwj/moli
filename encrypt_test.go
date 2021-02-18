@@ -11,7 +11,7 @@ func TestMd5(t *testing.T) {
 }
 
 func TestPassword(t *testing.T)  {
-	pwd := "q1w2e3r4t5"
+	pwd := "111111"
 	h,_ := PasswordHash(pwd)
 	fmt.Println(h)
 	fmt.Println(PasswordVerify(h,pwd))
