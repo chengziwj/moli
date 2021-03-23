@@ -1,4 +1,4 @@
-package moli
+package mcrypto
 
 import (
 	"crypto/md5"
