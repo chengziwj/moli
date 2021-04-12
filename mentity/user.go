@@ -1,4 +1,4 @@
-package entity
+package mentity
 
 type User struct {
 	Uid      int    `db:"uid" json:"uid"`
