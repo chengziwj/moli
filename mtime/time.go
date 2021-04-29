@@ -4,6 +4,7 @@ import "time"
 
 const DefaultLayout = "2006-01-02 15:04:05"
 
+//Timestamp 获取unix时间戳
 func Timestamp() int64 {
 	return time.Now().Unix()
 }

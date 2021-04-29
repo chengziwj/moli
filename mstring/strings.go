@@ -9,12 +9,17 @@ import (
 
 var defaultLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+//IsBlank 判断字符串是否为空
 func IsBlank(s string) bool {
 	return strings.TrimSpace(s) == ""
 }
 
+//Random 随机字符串
 func Random(n int) string {
-	rand.Seed(time.Now().UnixNano())
 	b := make([]rune, n)
 	l := len(defaultLetters)
 	for i := range b {
@@ -23,6 +28,7 @@ func Random(n int) string {
 	return string(b)
 }
 
+//Reverse 字符串反转
 func Reverse(s string) string {
 	l := len(s)
 	if l < 2 {
@@ -35,6 +41,7 @@ func Reverse(s string) string {
 	return string(runes)
 }
 
+//LeftPadInt 数字左填充
 func LeftPadInt(s int64, l int) string {
 	i := strconv.FormatInt(s, 10)
 	ll := len(i)
