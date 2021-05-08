@@ -42,11 +42,11 @@ func Reverse(s string) string {
 }
 
 //LeftPadInt 数字左填充
-func LeftPadInt(s int64, l int) string {
-	i := strconv.FormatInt(s, 10)
-	ll := len(i)
+func LeftPadInt(i int64, l int) string {
+	s := strconv.FormatInt(i, 10)
+	ll := len(s)
 	if ll >= l {
-		return i
+		return s
 	}
-	return strings.Repeat("0", l-ll) + i
+	return strings.Repeat("0", l-ll) + s
 }
