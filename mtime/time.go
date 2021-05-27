@@ -13,9 +13,30 @@ func TimestampInt() int {
 	return int(Timestamp())
 }
 
+//Str2Unix 字符串转换为Unix时间戳
+//默认格式 yyyy-MM-dd HH:mm:ss
+func Str2Unix(str string) int64 {
+	return ParseInt(DefaultLayout, str)
+}
+
+//Str2Unix 字符串转换为Unix时间戳
+//默认格式 yyyy-MM-dd HH:mm:ss
+func Str2UnixDefault(str string,defVal int64) int64 {
+	return ParseIntDefault(DefaultLayout, str,defVal)
+}
+
 //ParseInt 字符串转换成时间戳
 func ParseInt(layout, value string) int64 {
 	return ParseIntLoc(layout, value, time.Local)
+}
+
+//ParseIntDefault 解析字符串为unix
+func ParseIntDefault(layout, value string, defVal int64) int64 {
+	t, err := time.ParseInLocation(layout, value, time.Local)
+	if err != nil {
+		return defVal
+	}
+	return t.Unix()
 }
 
 //ParseIntLoc 字符串转换成时间戳
