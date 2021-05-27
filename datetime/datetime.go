@@ -5,21 +5,21 @@ import (
 	"time"
 )
 
-type Option func(t *option)
+type Option func(t *config)
 
-type option struct {
+type config struct {
 	layout string
 	loc    *time.Location
 }
 
 func WithLoc(loc *time.Location) Option {
-	return func(t *option) {
+	return func(t *config) {
 		t.loc = loc
 	}
 }
 
 func WithLayout(layout string) Option {
-	return func(t *option) {
+	return func(t *config) {
 		t.layout = layout
 	}
 }
@@ -28,22 +28,34 @@ type DateTime struct {
 	t time.Time
 }
 
+func Now() DateTime {
+	return New()
+}
+
+//New 创建DateTime 默认当前时间
 func New() DateTime {
 	return DateTime{t: time.Now()}
 }
 
+//NewFromUnix 根据Unix时间戳创建
+func NewFromUnix(sec int64, nsec int64) DateTime {
+	return DateTime{t: time.Unix(sec, nsec)}
+}
+
+//NewMust 通过字符串创建时间
 func NewMust(value string, opts ...Option) (DateTime, error) {
-	opt := option{layout: LayoutDefault, loc: time.Local}
+	cfg := config{layout: LayoutDefault, loc: time.Local}
 	for _, op := range opts {
-		op(&opt)
+		op(&cfg)
 	}
-	t, err := time.ParseInLocation(opt.layout, value, opt.loc)
+	t, err := time.ParseInLocation(cfg.layout, value, cfg.loc)
 	if err != nil {
 		return DateTime{}, err
 	}
 	return DateTime{t: t}, nil
 }
 
+//NewWithOption 通过字符串创建时间，创建失败则防护当前时间
 func NewWithOption(value string, opts ...Option) DateTime {
 	dt, err := NewMust(value, opts...)
 	if err != nil {
@@ -92,12 +104,12 @@ func (d DateTime) toInt(s string) int64 {
 	return i
 }
 
-//Day 返回到天的格式化时间
+//FormatDay 返回到天的格式化时间
 func (d DateTime) FormatDay() string {
 	return d.t.Format(LayoutDay)
 }
 
-//Month 返回到月的格式化时间
+//FormatMonth 返回到月的格式化时间
 func (d DateTime) FormatMonth() string {
 	return d.t.Format(LayoutMonth)
 }
