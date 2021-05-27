@@ -1,6 +1,9 @@
 package datetime
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 type Option func(t *option)
 
@@ -30,7 +33,7 @@ func New() DateTime {
 }
 
 func NewMust(value string, opts ...Option) (DateTime, error) {
-	opt := option{layout: DefaultLayout, loc: time.Local}
+	opt := option{layout: LayoutDefault, loc: time.Local}
 	for _, op := range opts {
 		op(&opt)
 	}
@@ -49,16 +52,62 @@ func NewWithOption(value string, opts ...Option) DateTime {
 	return dt
 }
 
+//Unix 返回Unix时间戳
 func (d DateTime) Unix() int64 {
 	return d.t.Unix()
 }
 
+//Millis 返回Unix毫秒时间戳
+func (d DateTime) Millis() int64 {
+	return d.t.UnixNano() / 1e6
+}
+
+//Start 返回当天开始时间戳
 func (d DateTime) Start() int64 {
 	return StartOfDay(d.t)
 }
 
+//End 返回当天结束时间戳
 func (d DateTime) End() int64 {
 	return EndOfDay(d.t)
+}
+
+//Time 返回time.Time
+func (d DateTime) Time() time.Time {
+	return d.t
+}
+
+//Digit 将时间转换int类型 到秒结束
+func (d DateTime) Digit() int64 {
+	return d.toInt(d.t.Format(LayoutDigit))
+}
+
+//DayDigit 将时间转换为int，到天结束
+func (d DateTime) DayDigit() int64 {
+	return d.toInt(d.t.Format(LayoutDayDigit))
+}
+
+func (d DateTime) toInt(s string) int64 {
+	i, _ := strconv.ParseInt(s, 10, 64)
+	return i
+}
+
+//Day 返回到天的格式化时间
+func (d DateTime) FormatDay() string {
+	return d.t.Format(LayoutDay)
+}
+
+//Month 返回到月的格式化时间
+func (d DateTime) FormatMonth() string {
+	return d.t.Format(LayoutMonth)
+}
+
+func (d DateTime) ToString() string {
+	return d.t.Format(LayoutDefault)
+}
+
+func (d DateTime) Format(layout string) string {
+	return d.t.Format(layout)
 }
 
 //StartOfDay 获取当天开始时间戳
