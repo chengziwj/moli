@@ -2,48 +2,62 @@ package datetime
 
 import "time"
 
-type Option func(t *Options)
+type Option func(t *option)
 
-type Options struct {
+type option struct {
 	layout string
 	loc    *time.Location
 }
 
 func WithLoc(loc *time.Location) Option {
-	return func(t *Options) {
+	return func(t *option) {
 		t.loc = loc
 	}
 }
 
+func WithLayout(layout string) Option {
+	return func(t *option) {
+		t.layout = layout
+	}
+}
+
 type DateTime struct {
-	t      time.Time
+	t time.Time
 }
 
 func New() DateTime {
 	return DateTime{t: time.Now()}
 }
 
-func NewWithOption(value string, opts ...Option) DateTime {
-	options := Options{layout: DefaultLayout,loc: time.Local}
+func NewMust(value string, opts ...Option) (DateTime, error) {
+	opt := option{layout: DefaultLayout, loc: time.Local}
 	for _, op := range opts {
-		op(&options)
+		op(&opt)
 	}
-	t, err := time.ParseInLocation(options.layout, value, options.loc)
+	t, err := time.ParseInLocation(opt.layout, value, opt.loc)
+	if err != nil {
+		return DateTime{}, err
+	}
+	return DateTime{t: t}, nil
+}
+
+func NewWithOption(value string, opts ...Option) DateTime {
+	dt, err := NewMust(value, opts...)
 	if err != nil {
 		return New()
 	}
-	return DateTime{t: t}
+	return dt
 }
 
-func (d *DateTime) Unix() int64 {
+func (d DateTime) Unix() int64 {
 	return d.t.Unix()
 }
 
-func (d *DateTime) Start() int64 {
+func (d DateTime) Start() int64 {
 	return StartOfDay(d.t)
 }
 
-func (d *DateTime) End() int64 {
+func (d DateTime) End() int64 {
 	return EndOfDay(d.t)
 }
 
