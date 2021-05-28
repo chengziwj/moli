@@ -3,9 +3,10 @@ package moli
 const defaultLimit = 10
 
 type Pagination struct {
-	Limit  int
-	Offset int
-	Page   int
+	Limit  int `json:"limit"`
+	Offset int `json:"offset"`
+	Page   int `json:"page"`
+	Total  int `json:"total"`
 }
 
 func NewPagination(page, limit int) Pagination {
