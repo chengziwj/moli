@@ -29,12 +29,12 @@ type DateTime struct {
 }
 
 func Now() DateTime {
-	return New()
+	return DateTime{t: time.Now()}
 }
 
 //New 创建DateTime 默认当前时间
 func New() DateTime {
-	return DateTime{t: time.Now()}
+	return Now()
 }
 
 //NewFromUnix 根据Unix时间戳创建
