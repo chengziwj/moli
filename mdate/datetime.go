@@ -94,17 +94,17 @@ func (d DateTime) Time() time.Time {
 }
 
 //Digit 将时间转换int类型 到秒结束
-func (d DateTime) Digit() int64 {
+func (d DateTime) Digit() int {
 	return d.toInt(d.t.Format(LayoutDigit))
 }
 
 //DayDigit 将时间转换为int，到天结束
-func (d DateTime) DayDigit() int64 {
+func (d DateTime) DayDigit() int {
 	return d.toInt(d.t.Format(LayoutDayDigit))
 }
 
-func (d DateTime) toInt(s string) int64 {
-	i, _ := strconv.ParseInt(s, 10, 64)
+func (d DateTime) toInt(s string) int {
+	i, _ := strconv.Atoi(s)
 	return i
 }
 
