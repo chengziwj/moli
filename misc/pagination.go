@@ -1,4 +1,4 @@
-package moli
+package misc
 
 const defaultLimit = 10
 

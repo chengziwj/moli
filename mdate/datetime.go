@@ -1,4 +1,4 @@
-package datetime
+package mdate
 
 import (
 	"strconv"
@@ -38,7 +38,7 @@ func NewFromUnix(sec int64, nsec int64) DateTime {
 	return DateTime{t: time.Unix(sec, nsec)}
 }
 
-//NewWithOption 通过字符串创建时间，创建失败则防护当前时间
+//New 通过字符串创建时间，创建失败则防护当前时间
 func New(value string, opts ...Option) DateTime {
 	dt, err := NewMust(value, opts...)
 	if err != nil {
