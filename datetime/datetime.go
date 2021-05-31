@@ -8,8 +8,9 @@ import (
 type Option func(t *config)
 
 type config struct {
-	layout string
-	loc    *time.Location
+	layout  string
+	defTime *time.Time
+	loc     *time.Location
 }
 
 func WithLoc(loc *time.Location) Option {
@@ -32,14 +33,26 @@ func Now() DateTime {
 	return DateTime{t: time.Now()}
 }
 
-//New 创建DateTime 默认当前时间
-func New() DateTime {
-	return Now()
-}
-
 //NewFromUnix 根据Unix时间戳创建
 func NewFromUnix(sec int64, nsec int64) DateTime {
 	return DateTime{t: time.Unix(sec, nsec)}
+}
+
+//NewWithOption 通过字符串创建时间，创建失败则防护当前时间
+func New(value string, opts ...Option) DateTime {
+	dt, err := NewMust(value, opts...)
+	if err != nil {
+		return Now()
+	}
+	return dt
+}
+
+func NewWithDefault(value string, defVal time.Time, opts ...Option) DateTime {
+	dt, err := NewMust(value, opts...)
+	if err != nil {
+		return DateTime{t: defVal}
+	}
+	return dt
 }
 
 //NewMust 通过字符串创建时间
@@ -53,15 +66,6 @@ func NewMust(value string, opts ...Option) (DateTime, error) {
 		return DateTime{}, err
 	}
 	return DateTime{t: t}, nil
-}
-
-//NewWithOption 通过字符串创建时间，创建失败则防护当前时间
-func NewWithOption(value string, opts ...Option) DateTime {
-	dt, err := NewMust(value, opts...)
-	if err != nil {
-		return New()
-	}
-	return dt
 }
 
 //Unix 返回Unix时间戳
@@ -104,20 +108,22 @@ func (d DateTime) toInt(s string) int64 {
 	return i
 }
 
-//FormatDay 返回到天的格式化时间
+//FormatDay 返回到天的格式化时间，格式：yyyy-MM-dd
 func (d DateTime) FormatDay() string {
 	return d.t.Format(LayoutDay)
 }
 
-//FormatMonth 返回到月的格式化时间
+//FormatMonth 返回到月的格式化时间，格式：yyyy-MM-dd
 func (d DateTime) FormatMonth() string {
 	return d.t.Format(LayoutMonth)
 }
 
+//ToString 返回日期字符串，格式：yyyy-MM-dd HH:mm:ss
 func (d DateTime) ToString() string {
 	return d.t.Format(LayoutDefault)
 }
 
+//Format 格式化日期
 func (d DateTime) Format(layout string) string {
 	return d.t.Format(layout)
 }
