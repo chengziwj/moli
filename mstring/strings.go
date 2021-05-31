@@ -50,3 +50,19 @@ func LeftPadInt(i int64, l int) string {
 	}
 	return strings.Repeat("0", l-ll) + s
 }
+
+func Cut(str string, l int, tail string) string {
+	runes := []rune(str)
+	tails := []rune(tail)
+	ll := len(runes)
+	lt := len(tails)
+
+	if ll <= l {
+		return string(runes)
+	}
+
+	//字符串超过限定长度, lc + lt = l
+	runes = runes[:l-lt]
+	runes = append(runes, tails...)
+	return string(runes)
+}

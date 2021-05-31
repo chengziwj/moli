@@ -29,6 +29,15 @@ func TestLeftPad(t *testing.T) {
 	fmt.Println(LeftPadInt(10,10))
 }
 
+func TestCut(t *testing.T) {
+	s1 := "如果List中的每个元素作为Pred函数的参数执行，结果都返回true，那么all函数返回true，"
+	s2 := "如果List中的每个元素"
+	s3 := "如果List中的每个元素作"
+	fmt.Println(Cut(s1,12,"..."))
+	fmt.Println(Cut(s2,12,"..."))
+	fmt.Println(Cut(s3,12,".."))
+}
+
 func BenchmarkLeftPadInt(b *testing.B) {
 	for i:=0;i<b.N;i++{
 		LeftPadInt(12345,10)
