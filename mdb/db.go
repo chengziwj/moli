@@ -1,6 +1,9 @@
-package mentity
+package mdb
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Db struct {
 	Host     string `yaml:"host" json:"host"`
@@ -11,8 +14,12 @@ type Db struct {
 }
 
 func (d Db) DSN() string {
-	if d.Port == 0 {
+	if d.Port == 0 || d.Port > 65535 {
 		d.Port = 3306
 	}
 	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", d.User, d.Password, d.Host, d.Port, d.Name)
+}
+
+func (d Db) Open(driver string) (*sql.DB, error) {
+	return sql.Open(driver, d.DSN())
 }
