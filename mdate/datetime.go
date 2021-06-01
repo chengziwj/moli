@@ -88,6 +88,16 @@ func (d DateTime) End() int64 {
 	return EndOfDay(d.t)
 }
 
+func (d DateTime) LastSecOfMonth() int64 {
+	year, month, _ := d.t.Date()
+	return time.Date(year, month, 1, 0, 0, 0, 0, d.t.Location()).Unix()
+}
+
+func (d DateTime) FirstSecOfMonth() int64 {
+	year, month, _ := d.t.Date()
+	return time.Date(year, month+1, 1, 0, 0, 0, 0, d.t.Location()).Unix() - 1
+}
+
 //Time 返回time.Time
 func (d DateTime) Time() time.Time {
 	return d.t
