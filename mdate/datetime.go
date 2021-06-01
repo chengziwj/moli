@@ -88,12 +88,14 @@ func (d DateTime) End() int64 {
 	return EndOfDay(d.t)
 }
 
-func (d DateTime) LastSecOfMonth() int64 {
+//FirstSecOfMonth 返回月份第一秒时间戳
+func (d DateTime) FirstSecOfMonth() int64 {
 	year, month, _ := d.t.Date()
 	return time.Date(year, month, 1, 0, 0, 0, 0, d.t.Location()).Unix()
 }
 
-func (d DateTime) FirstSecOfMonth() int64 {
+//LastSecOfMonth 返回月份最后一秒时间戳
+func (d DateTime) LastSecOfMonth() int64 {
 	year, month, _ := d.t.Date()
 	return time.Date(year, month+1, 1, 0, 0, 0, 0, d.t.Location()).Unix() - 1
 }
