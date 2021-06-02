@@ -8,9 +8,8 @@ import (
 type Option func(t *config)
 
 type config struct {
-	layout  string
-	defTime *time.Time
-	loc     *time.Location
+	layout string
+	loc    *time.Location
 }
 
 func WithLoc(loc *time.Location) Option {
@@ -26,16 +25,16 @@ func WithLayout(layout string) Option {
 }
 
 type DateTime struct {
-	t time.Time
+	time.Time
 }
 
 func Now() DateTime {
-	return DateTime{t: time.Now()}
+	return DateTime{Time: time.Now()}
 }
 
 //NewFromUnix 根据Unix时间戳创建
 func NewFromUnix(sec int64, nsec int64) DateTime {
-	return DateTime{t: time.Unix(sec, nsec)}
+	return DateTime{Time: time.Unix(sec, nsec)}
 }
 
 //New 通过字符串创建时间，创建失败则防护当前时间
@@ -43,14 +42,6 @@ func New(value string, opts ...Option) DateTime {
 	dt, err := NewMust(value, opts...)
 	if err != nil {
 		return Now()
-	}
-	return dt
-}
-
-func NewWithDefault(value string, defVal time.Time, opts ...Option) DateTime {
-	dt, err := NewMust(value, opts...)
-	if err != nil {
-		return DateTime{t: defVal}
 	}
 	return dt
 }
@@ -65,83 +56,76 @@ func NewMust(value string, opts ...Option) (DateTime, error) {
 	if err != nil {
 		return DateTime{}, err
 	}
-	return DateTime{t: t}, nil
+	return DateTime{Time: t}, nil
 }
 
-//Unix 返回Unix时间戳
-func (d DateTime) Unix() int64 {
-	return d.t.Unix()
+func NewWithDefault(value string, defVal time.Time, opts ...Option) DateTime {
+	dt, err := NewMust(value, opts...)
+	if err != nil {
+		return DateTime{Time: defVal}
+	}
+	return dt
 }
 
 //Millis 返回Unix毫秒时间戳
-func (d DateTime) Millis() int64 {
-	return d.t.UnixNano() / 1e6
+func (dt DateTime) Millis() int64 {
+	return dt.UnixNano() / 1e6
 }
 
 //Start 返回当天开始时间戳
-func (d DateTime) Start() int64 {
-	return StartOfDay(d.t)
+func (dt DateTime) Start() int64 {
+	return StartOfDay(dt.Time)
 }
 
 //End 返回当天结束时间戳
-func (d DateTime) End() int64 {
-	return EndOfDay(d.t)
+func (dt DateTime) End() int64 {
+	return EndOfDay(dt.Time)
 }
 
 //StartOfMonth 返回月份第一秒时间戳
-func (d DateTime) StartOfMonth() int64 {
-	year, month, _ := d.t.Date()
-	return time.Date(year, month, 1, 0, 0, 0, 0, d.t.Location()).Unix()
+func (dt DateTime) StartOfMonth() int64 {
+	year, month, _ := dt.Date()
+	return time.Date(year, month, 1, 0, 0, 0, 0, dt.Location()).Unix()
 }
 
 //EndOfMonth 返回月份最后一秒时间戳
-func (d DateTime) EndOfMonth() int64 {
-	year, month, _ := d.t.Date()
-	d.t.Local()
-	return time.Date(year, month+1, 1, 0, 0, 0, 0, d.t.Location()).Unix() - 1
+func (dt DateTime) EndOfMonth() int64 {
+	year, month, _ := dt.Date()
+	return time.Date(year, month+1, 1, 0, 0, 0, 0, dt.Location()).Unix() - 1
 }
 
-//DiffDays 返回日期相差天数
-func (d DateTime) DiffDays(d1 DateTime) int64 {
-	return (d.Start() - d1.Start()) / Day
+//Sub 返回日期相差天数
+func (dt DateTime) Sub(d1 DateTime) int64 {
+	return (dt.Start() - d1.Start()) / Day
 }
 
-//Time 返回time.Time
-func (d DateTime) Time() time.Time {
-	return d.t
-}
 
 //Digit 将时间转换int类型 到秒结束
-func (d DateTime) Digit() int {
-	return d.toInt(d.t.Format(LayoutDigit))
+func (dt DateTime) Digit() int {
+	return dt.toInt(dt.Format(LayoutDigit))
 }
 
 //DayDigit 将时间转换为int，到天结束
-func (d DateTime) DayDigit() int {
-	return d.toInt(d.t.Format(LayoutDayDigit))
+func (dt DateTime) DayDigit() int {
+	return dt.toInt(dt.Format(LayoutDayDigit))
 }
 
-func (d DateTime) toInt(s string) int {
+func (dt DateTime) toInt(s string) int {
 	i, _ := strconv.Atoi(s)
 	return i
 }
 
 //FormatDay 返回到天的格式化时间，格式：yyyy-MM-dd
-func (d DateTime) FormatDay() string {
-	return d.t.Format(LayoutDay)
+func (dt DateTime) FormatDay() string {
+	return dt.Format(LayoutDay)
 }
 
 //FormatMonth 返回到月的格式化时间，格式：yyyy-MM-dd
-func (d DateTime) FormatMonth() string {
-	return d.t.Format(LayoutMonth)
+func (dt DateTime) FormatMonth() string {
+	return dt.Format(LayoutMonth)
 }
 
 //ToString 返回日期字符串，格式：yyyy-MM-dd HH:mm:ss
-func (d DateTime) ToString() string {
-	return d.t.Format(LayoutDefault)
-}
-
-//Format 格式化日期
-func (d DateTime) Format(layout string) string {
-	return d.t.Format(layout)
+func (dt DateTime) ToString() string {
+	return dt.Format(LayoutDefault)
 }
