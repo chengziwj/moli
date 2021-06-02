@@ -18,5 +18,12 @@ func TestMonth(t *testing.T) {
 
 func TestMonthSec(t *testing.T) {
 	dt := Now()
-	fmt.Println(dt.LastSecOfMonth(), dt.FirstSecOfMonth())
+	fmt.Println(dt.StartOfMonth(), dt.EndOfMonth())
+}
+
+func TestSub(t *testing.T)  {
+	d1 := Now()
+	d2 := New("2021-05-31 06:12:12")
+	fmt.Println(d1.DiffDays(d2))
+
 }

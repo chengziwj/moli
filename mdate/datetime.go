@@ -88,16 +88,22 @@ func (d DateTime) End() int64 {
 	return EndOfDay(d.t)
 }
 
-//FirstSecOfMonth 返回月份第一秒时间戳
-func (d DateTime) FirstSecOfMonth() int64 {
+//StartOfMonth 返回月份第一秒时间戳
+func (d DateTime) StartOfMonth() int64 {
 	year, month, _ := d.t.Date()
 	return time.Date(year, month, 1, 0, 0, 0, 0, d.t.Location()).Unix()
 }
 
-//LastSecOfMonth 返回月份最后一秒时间戳
-func (d DateTime) LastSecOfMonth() int64 {
+//EndOfMonth 返回月份最后一秒时间戳
+func (d DateTime) EndOfMonth() int64 {
 	year, month, _ := d.t.Date()
+	d.t.Local()
 	return time.Date(year, month+1, 1, 0, 0, 0, 0, d.t.Location()).Unix() - 1
+}
+
+//DiffDays 返回日期相差天数
+func (d DateTime) DiffDays(d1 DateTime) int64 {
+	return (d.Start() - d1.Start()) / Day
 }
 
 //Time 返回time.Time
@@ -138,16 +144,4 @@ func (d DateTime) ToString() string {
 //Format 格式化日期
 func (d DateTime) Format(layout string) string {
 	return d.t.Format(layout)
-}
-
-//StartOfDay 获取当天开始时间戳
-func StartOfDay(dt time.Time) int64 {
-	year, month, day := dt.Date()
-	return time.Date(year, month, day, 0, 0, 0, 0, dt.Location()).Unix()
-}
-
-//EndOfDay 获取当天结束时间戳
-func EndOfDay(dt time.Time) int64 {
-	year, month, day := dt.Date()
-	return time.Date(year, month, day+1, 0, 0, 0, 0, dt.Location()).Unix() - 1
 }
