@@ -5,25 +5,6 @@ import (
 	"time"
 )
 
-type Option func(t *config)
-
-type config struct {
-	layout string
-	loc    *time.Location
-}
-
-func WithLoc(loc *time.Location) Option {
-	return func(t *config) {
-		t.loc = loc
-	}
-}
-
-func WithLayout(layout string) Option {
-	return func(t *config) {
-		t.layout = layout
-	}
-}
-
 type DateTime struct {
 	time.Time
 }
@@ -98,7 +79,6 @@ func (dt DateTime) EndOfMonth() int64 {
 func (dt DateTime) Sub(d1 DateTime) int64 {
 	return (dt.Start() - d1.Start()) / Day
 }
-
 
 //Digit 将时间转换int类型 到秒结束
 func (dt DateTime) Digit() int {
