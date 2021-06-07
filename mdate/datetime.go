@@ -65,18 +65,16 @@ func (dt DateTime) End() int64 {
 
 //StartOfMonth 返回月份第一秒时间戳
 func (dt DateTime) StartOfMonth() int64 {
-	year, month, _ := dt.Date()
-	return time.Date(year, month, 1, 0, 0, 0, 0, dt.Location()).Unix()
+	return StartOfMonth(dt.Time)
 }
 
 //EndOfMonth 返回月份最后一秒时间戳
 func (dt DateTime) EndOfMonth() int64 {
-	year, month, _ := dt.Date()
-	return time.Date(year, month+1, 1, 0, 0, 0, 0, dt.Location()).Unix() - 1
+	return EndOfMonth(dt.Time)
 }
 
-//Sub 返回日期相差天数
-func (dt DateTime) Sub(d1 DateTime) int64 {
+//Diff 返回日期相差天数
+func (dt DateTime) Diff(d1 DateTime) int64 {
 	return (dt.Start() - d1.Start()) / Day
 }
 
