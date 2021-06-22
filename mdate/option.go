@@ -7,6 +7,7 @@ type Option func(t *config)
 type config struct {
 	layout string
 	loc    *time.Location
+	def time.Time
 }
 
 func WithLoc(loc *time.Location) Option {

@@ -18,17 +18,8 @@ func NewFromUnix(sec int64, nsec int64) DateTime {
 	return DateTime{Time: time.Unix(sec, nsec)}
 }
 
-//New 通过字符串创建时间，创建失败则防护当前时间
-func New(value string, opts ...Option) DateTime {
-	dt, err := NewMust(value, opts...)
-	if err != nil {
-		return Now()
-	}
-	return dt
-}
-
-//NewMust 通过字符串创建时间
-func NewMust(value string, opts ...Option) (DateTime, error) {
+//New 通过字符串创建时间，失败返回error
+func New(value string, opts ...Option) (DateTime, error) {
 	cfg := config{layout: LayoutDefault, loc: time.Local}
 	for _, op := range opts {
 		op(&cfg)
@@ -40,8 +31,8 @@ func NewMust(value string, opts ...Option) (DateTime, error) {
 	return DateTime{Time: t}, nil
 }
 
-func NewWithDefault(value string, defVal time.Time, opts ...Option) DateTime {
-	dt, err := NewMust(value, opts...)
+func NewDefault(value string, defVal time.Time, opts ...Option) DateTime {
+	dt, err := New(value, opts...)
 	if err != nil {
 		return DateTime{Time: defVal}
 	}
