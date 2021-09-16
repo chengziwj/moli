@@ -17,6 +17,15 @@ func TestRandomString(t *testing.T) {
 	fmt.Println(Random(10))
 }
 
+func TestWrap(t *testing.T) {
+	fmt.Println(Wrap([]string{"a","b","c"},"'"))
+}
+
+
+func TestWrapString(t *testing.T) {
+	fmt.Println(WrapString("a,b,c,",",","'"))
+}
+
 func TestReverse(t *testing.T) {
 	fmt.Println(Reverse("fjkewo3i232klfes"))
 }

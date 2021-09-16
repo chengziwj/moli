@@ -66,3 +66,17 @@ func Cut(str string, l int, tail string) string {
 	runes = append(runes, tails...)
 	return string(runes)
 }
+
+//WrapString 分割字符串，并且前后添加指定字符
+func WrapString(str, sep, s string) string {
+	return Wrap(strings.Split(str, sep), s)
+}
+
+//Wrap 将元素前后添加指定字符
+func Wrap(arr []string, s string) string {
+	var rs []string
+	for _, v := range arr {
+		rs = append(rs, s+v+s)
+	}
+	return strings.Join(rs, ",")
+}
