@@ -43,3 +43,7 @@ func Zero(dt time.Time) time.Time {
 	year, month, day := dt.Date()
 	return time.Date(year, month, day, 0, 0, 0, 0, dt.Location())
 }
+
+func FormatUnix(ts int64, layout string) string {
+	return time.Unix(ts, 0).Format(layout)
+}

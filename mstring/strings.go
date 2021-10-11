@@ -80,3 +80,13 @@ func Wrap(arr []string, s string) string {
 	}
 	return strings.Join(rs, ",")
 }
+
+//JoinInt int数组转换成字符串
+func JoinInt(nums []int, sep string) string {
+	b := make([]string, len(nums))
+	for i, v := range nums {
+		b[i] = strconv.Itoa(v)
+	}
+	return strings.Join(b, sep)
+}
+
