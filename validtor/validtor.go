@@ -1,9 +1,7 @@
 package validtor
 
 import (
-	"fmt"
 	"regexp"
-	"unicode"
 )
 
 var (
@@ -33,37 +31,4 @@ func Ipv6(s string) bool {
 
 func Domain(s string) bool {
 	return reDomain.MatchString(s)
-}
-
-//Password 帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)
-func Password(str string, minLen, maxLen int) error {
-	var (
-		isUpper   = false
-		isLower   = false
-		isNumber  = false
-		isSpecial = false
-	)
-
-	if len(str) < minLen || len(str) > maxLen {
-		return fmt.Errorf("The password must contain uppercase and lowercase letters, numbers or punctuation, and must be %d-%d digits long. ", minLen, maxLen)
-	}
-
-	for _, s := range str {
-		switch {
-		case unicode.IsUpper(s):
-			isUpper = true
-		case unicode.IsLower(s):
-			isLower = true
-		case unicode.IsNumber(s):
-			isNumber = true
-		case unicode.IsPunct(s) || unicode.IsSymbol(s):
-			isSpecial = true
-		default:
-		}
-	}
-
-	if (isUpper && isLower) && (isNumber || isSpecial) {
-		return nil
-	}
-	return fmt.Errorf("The password must contain uppercase and lowercase letters, numbers or punctuation, and must be %d-%d digits long. ", minLen, maxLen)
 }
