@@ -98,4 +98,3 @@ func (dt DateTime) FormatMonth() string {
 func (dt DateTime) ToString() string {
 	return dt.Format(LayoutDefault)
 }
-

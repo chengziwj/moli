@@ -7,5 +7,5 @@ import (
 )
 
 func TestPassword(t *testing.T) {
-	assert.Equal(t, CheckPassword("abcAxyz.com"), nil, "password is valid")
+	assert.Equal(t, CheckPassword("abc1Axyz.com"), nil, "password is valid")
 }
