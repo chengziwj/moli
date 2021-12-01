@@ -6,14 +6,12 @@ import (
 	"unicode"
 )
 
-const ()
-
 var (
-	reMail, _     = regexp.Compile(RegexMail)
-	reUserName, _ = regexp.Compile(RegexUserName)
-	reIpv4, _     = regexp.Compile(RegexIpv4)
-	reIpv6, _     = regexp.Compile(RegexIpv6)
-	reDomain, _   = regexp.Compile(RegexDomain)
+	reMail     = regexp.MustCompile(PatternMail)
+	reUserName = regexp.MustCompile(PatternUserName)
+	reIpv4     = regexp.MustCompile(PatternIpv4)
+	reIpv6     = regexp.MustCompile(PatternIpv6)
+	reDomain   = regexp.MustCompile(PatternDomain)
 )
 
 func Mail(s string) bool {
