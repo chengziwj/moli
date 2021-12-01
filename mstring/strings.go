@@ -90,3 +90,11 @@ func JoinInt(nums []int, sep string) string {
 	return strings.Join(b, sep)
 }
 
+//JoinUint int数组转换成字符串
+func JoinUint(nums []uint64, sep string) string {
+	b := make([]string, len(nums))
+	for i, v := range nums {
+		b[i] = strconv.FormatUint(v, 10)
+	}
+	return strings.Join(b, sep)
+}

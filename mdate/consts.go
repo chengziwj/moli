@@ -5,6 +5,7 @@ const LayoutMonth = "2006-01"
 const LayoutDay = "2006-01-02"
 const LayoutDigit = "20060102150405"
 const LayoutDayDigit = "20060102"
+const LayoutISO8601 = "2006-01-02T15:04:05.000Z"
 
 const Second = 1
 const Minute = Second * 60
