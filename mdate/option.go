@@ -5,19 +5,27 @@ import "time"
 type Option func(t *config)
 
 type config struct {
-	layout string
-	loc    *time.Location
-	def time.Time
+	layout  string
+	loc     *time.Location
+	defTime time.Time
+	hasDef  bool
 }
 
 func WithLoc(loc *time.Location) Option {
-	return func(t *config) {
-		t.loc = loc
+	return func(c *config) {
+		c.loc = loc
 	}
 }
 
 func WithLayout(layout string) Option {
-	return func(t *config) {
-		t.layout = layout
+	return func(c *config) {
+		c.layout = layout
+	}
+}
+
+func WithDefault(dt time.Time) Option {
+	return func(c *config) {
+		c.defTime = dt
+		c.hasDef = true
 	}
 }

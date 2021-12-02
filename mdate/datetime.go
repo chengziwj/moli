@@ -13,9 +13,14 @@ func Now() DateTime {
 	return DateTime{Time: time.Now()}
 }
 
-//NewFromUnix 根据Unix时间戳创建
-func NewFromUnix(sec int64, nsec int64) DateTime {
-	return DateTime{Time: time.Unix(sec, nsec)}
+//FromUnix 根据Unix时间戳创建
+func FromUnix(sec int64) DateTime {
+	return DateTime{Time: time.Unix(sec, 0)}
+}
+
+//FromTime from time.Time
+func FromTime(dt time.Time) DateTime {
+	return DateTime{Time: dt}
 }
 
 //New 通过字符串创建时间，失败返回error
@@ -25,18 +30,13 @@ func New(value string, opts ...Option) (DateTime, error) {
 		op(&cfg)
 	}
 	t, err := time.ParseInLocation(cfg.layout, value, cfg.loc)
-	if err != nil {
+	if err != nil && !cfg.hasDef {
+		if cfg.hasDef {
+			return DateTime{Time: cfg.defTime}, nil
+		}
 		return DateTime{}, err
 	}
 	return DateTime{Time: t}, nil
-}
-
-func NewDefault(value string, defVal time.Time, opts ...Option) DateTime {
-	dt, err := New(value, opts...)
-	if err != nil {
-		return DateTime{Time: defVal}
-	}
-	return dt
 }
 
 //Millis 返回Unix毫秒时间戳

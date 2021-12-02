@@ -27,23 +27,23 @@ func CheckPassword(str string) error {
 	return Password(str, WithLength(5, 12), WithLower(), WithUpper(), WithNumber(), WithSpecial())
 }
 
-type option func(s string) error
+type Option func(s string) error
 
-var ErrUpper = errors.New("The password must contain uppercase letters")
-var ErrLower = errors.New("The password must contain lowercase letters")
-var ErrNumber = errors.New("The password must contain numbers")
-var ErrPunctuation = errors.New("The password must contain punctuation")
+var ErrUpper = errors.New("the password must contain uppercase letters")
+var ErrLower = errors.New("the password must contain lowercase letters")
+var ErrNumber = errors.New("the password must contain numbers")
+var ErrPunctuation = errors.New("the password must contain punctuation")
 
-func WithLength(minLen, maxLen int) option {
+func WithLength(minLen, maxLen int) Option {
 	return func(str string) error {
 		if len(str) < minLen || len(str) > maxLen {
-			return fmt.Errorf("The password must be %d-%d digits long. ", minLen, maxLen)
+			return fmt.Errorf("the password must be %d-%d digits long", minLen, maxLen)
 		}
 		return nil
 	}
 }
 
-func WithUpper() option {
+func WithUpper() Option {
 	return func(str string) error {
 		for _, s := range str {
 			if unicode.IsUpper(s) {
@@ -54,7 +54,7 @@ func WithUpper() option {
 	}
 }
 
-func WithLower() option {
+func WithLower() Option {
 	return func(str string) error {
 		for _, s := range str {
 			if unicode.IsLower(s) {
@@ -65,7 +65,7 @@ func WithLower() option {
 	}
 }
 
-func WithNumber() option {
+func WithNumber() Option {
 	return func(str string) error {
 		for _, s := range str {
 			if unicode.IsNumber(s) {
@@ -76,7 +76,7 @@ func WithNumber() option {
 	}
 }
 
-func WithSpecial() option {
+func WithSpecial() Option {
 	return func(str string) error {
 		for _, s := range str {
 			if unicode.IsSymbol(s) || unicode.IsPunct(s) {
@@ -87,7 +87,7 @@ func WithSpecial() option {
 	}
 }
 
-func Password(str string, opts ...option) error {
+func Password(str string, opts ...Option) error {
 	for _, o := range opts {
 		if err := o(str); err != nil {
 			return err
