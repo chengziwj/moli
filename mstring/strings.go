@@ -98,3 +98,12 @@ func JoinUint(nums []uint64, sep string) string {
 	}
 	return strings.Join(b, sep)
 }
+
+//JoinInt64 int64数组转换成字符串
+func JoinInt64(nums []int64, sep string) string {
+	b := make([]string, len(nums))
+	for i, v := range nums {
+		b[i] = strconv.FormatInt(v, 10)
+	}
+	return strings.Join(b, sep)
+}
