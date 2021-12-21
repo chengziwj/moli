@@ -21,7 +21,7 @@ func TestMonthSec(t *testing.T) {
 	fmt.Println(dt.StartOfMonth(), dt.EndOfMonth())
 }
 
-func TestSub(t *testing.T)  {
+func TestSub(t *testing.T) {
 	d1 := Now()
 	d2 := New("2021-05-31 06:12:12")
 	fmt.Println(d1.Diff(d2))

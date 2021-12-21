@@ -47,3 +47,7 @@ func Zero(dt time.Time) time.Time {
 func FormatUnix(ts int64, layout string) string {
 	return time.Unix(ts, 0).Format(layout)
 }
+
+func IntToYmd(ts int64) string {
+	return FormatUnix(ts, LayoutDay)
+}
