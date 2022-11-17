@@ -13,12 +13,12 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-//IsBlank 判断字符串是否为空
+// IsBlank 判断字符串是否为空
 func IsBlank(s string) bool {
 	return strings.TrimSpace(s) == ""
 }
 
-//Random 随机字符串
+// Random 随机字符串
 func Random(n int) string {
 	b := make([]rune, n)
 	l := len(defaultLetters)
@@ -28,7 +28,7 @@ func Random(n int) string {
 	return string(b)
 }
 
-//Reverse 字符串反转
+// Reverse 字符串反转
 func Reverse(s string) string {
 	l := len(s)
 	if l < 2 {
@@ -41,7 +41,7 @@ func Reverse(s string) string {
 	return string(runes)
 }
 
-//LeftPadInt 数字左填充
+// LeftPadInt 数字左填充
 func LeftPadInt(i int64, l int) string {
 	s := strconv.FormatInt(i, 10)
 	ll := len(s)
@@ -67,12 +67,12 @@ func Cut(str string, l int, tail string) string {
 	return string(runes)
 }
 
-//WrapString 分割字符串，并且前后添加指定字符
+// WrapString 分割字符串，并且前后添加指定字符
 func WrapString(str, sep, s string) string {
 	return Wrap(strings.Split(str, sep), s)
 }
 
-//Wrap 将元素前后添加指定字符
+// Wrap 将元素前后添加指定字符
 func Wrap(arr []string, s string) string {
 	var rs []string
 	for _, v := range arr {
@@ -81,7 +81,7 @@ func Wrap(arr []string, s string) string {
 	return strings.Join(rs, ",")
 }
 
-//JoinInt int数组转换成字符串
+// JoinInt int数组转换成字符串
 func JoinInt(nums []int, sep string) string {
 	b := make([]string, len(nums))
 	for i, v := range nums {
@@ -90,7 +90,7 @@ func JoinInt(nums []int, sep string) string {
 	return strings.Join(b, sep)
 }
 
-//JoinUint int数组转换成字符串
+// JoinUint int数组转换成字符串
 func JoinUint(nums []uint64, sep string) string {
 	b := make([]string, len(nums))
 	for i, v := range nums {
@@ -99,7 +99,16 @@ func JoinUint(nums []uint64, sep string) string {
 	return strings.Join(b, sep)
 }
 
-//JoinInt64 int64数组转换成字符串
+// JoinUint32 int数组转换成字符串
+func JoinUint32(nums []uint32, sep string) string {
+	b := make([]string, len(nums))
+	for i, v := range nums {
+		b[i] = strconv.FormatUint(uint64(v), 10)
+	}
+	return strings.Join(b, sep)
+}
+
+// JoinInt64 int64数组转换成字符串
 func JoinInt64(nums []int64, sep string) string {
 	b := make([]string, len(nums))
 	for i, v := range nums {
